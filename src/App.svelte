@@ -3,12 +3,13 @@
 	import { Toast } from 'bootstrap';
 
 	let toastEl;
+	let instancia;
 
 	let opciones = {texto: '', color: ''};
 
 	const mostrarToast = (texto, color) => {
 		opciones = {texto, color};
-		new Toast(toastEl).show();
+		instancia.show();
 	}
 
 	let todos = [];	
@@ -19,10 +20,9 @@
 	}
 
 	$: localStorage.setItem("todos", JSON.stringify(todos));
-	
+	$: if(toastEl){ instancia = new Toast(toastEl);}
 
 	const addTodo = () => {
-		// todos.push(todo);
 		if (!todo.texto.trim()) {
 			console.log('Texto vacio');
 			todo.texto = '';
@@ -30,7 +30,6 @@
 		}
 		todo.id = Date.now();
 		todos = [...todos, todo];
-		console.log(todos);
 		todo = {id: '', texto: '', estado: false};
 
 		mostrarToast('Agregado correctamente', 'bg-primary');
